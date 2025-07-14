@@ -1,0 +1,162 @@
+[gd_scene load_steps=15 format=3 uid="uid://1cg6yxn0c61g"]
+
+[ext_resource type="Script" uid="uid://1e3blu5bcxvi" path="res://bluppy/bluppy.gd" id="1_gt7kt"]
+[ext_resource type="Texture2D" uid="uid://5gp3xp6wm6kc" path="res://bluppy/head.svg" id="2_c2lo8"]
+[ext_resource type="Texture2D" uid="uid://cs5efy6r8pr7m" path="res://bluppy/body.svg" id="3_26wo1"]
+[ext_resource type="Texture2D" uid="uid://80v73857x2bf" path="res://particles/air.svg" id="4_mtybu"]
+[ext_resource type="Material" uid="uid://ja468q6ymex8" path="res://particles/dash_particles.tres" id="5_eoaq8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gt7kt"]
+size = Vector2(58, 90)
+
+[sub_resource type="Animation" id="Animation_26wo1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_c2lo8"]
+resource_name = "idle"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_26wo1"]
+_data = {
+&"RESET": SubResource("Animation_26wo1"),
+&"idle": SubResource("Animation_c2lo8")
+}
+
+[sub_resource type="Animation" id="Animation_eoaq8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_mtybu"]
+resource_name = "idle"
+length = 2.00003
+loop_mode = 1
+step = 0.333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.333333, 0.666667, 1, 1.33333, 1.66667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_co2n1"]
+resource_name = "dash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_gf3gj"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eoaq8"]
+_data = {
+&"RESET": SubResource("Animation_eoaq8"),
+&"dash": SubResource("Animation_co2n1"),
+&"idle": SubResource("Animation_mtybu"),
+&"jump": SubResource("Animation_gf3gj")
+}
+
+[node name="Bluppy" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_gt7kt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -45)
+shape = SubResource("RectangleShape2D_gt7kt")
+
+[node name="Head" type="Sprite2D" parent="."]
+z_index = 21
+position = Vector2(0, -70)
+scale = Vector2(0.546, 0.546)
+texture = ExtResource("2_c2lo8")
+hframes = 4
+
+[node name="HeadAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_26wo1")
+}
+autoplay = "idle"
+
+[node name="Body" type="Sprite2D" parent="."]
+z_index = 20
+position = Vector2(0, -61)
+scale = Vector2(0.521, 0.521)
+texture = ExtResource("3_26wo1")
+hframes = 8
+vframes = 8
+
+[node name="BodyAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_eoaq8")
+}
+autoplay = "idle"
+
+[node name="DashParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -45)
+emitting = false
+amount = 28
+texture = ExtResource("4_mtybu")
+lifetime = 0.53
+process_material = ExtResource("5_eoaq8")
