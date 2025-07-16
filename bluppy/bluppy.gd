@@ -8,7 +8,7 @@ const JUMP_SPEED: float = -1100.0
 const DASH_PARTICLES_GRAVITY: float = 100.0
 
 @onready var head: Sprite2D = $Head
-@onready var head_adnimation: AnimationPlayer = $HeadAnimation
+@onready var head_animation: AnimationPlayer = $HeadAnimation
 @onready var body: Sprite2D = $Body
 @onready var body_animation: AnimationPlayer = $BodyAnimation
 @onready var dash_particles: GPUParticles2D = $DashParticles
@@ -34,6 +34,7 @@ func die() -> void:
 	is_dashing = false
 	can_dash = false
 	is_in_rising_air = false
+	head_animation.play("idle")
 	body_animation.play("idle")
 	head.flip_h = false
 	body.flip_h = false
@@ -49,6 +50,7 @@ func _physics_process(delta: float) -> void:
 		is_jumping = false
 		if not is_dashing:
 			body_animation.play("idle")
+			head_animation.play_backwards("look_upward")
 	
 	if is_rise_dashing and velocity.y >= JUMP_SPEED:
 		is_rise_dashing = false
@@ -59,6 +61,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y += GameManager.GRAVITY * delta
 	elif Input.is_action_pressed("jump"):
 		is_jumping = true
+		head_animation.play("look_upward")
 		body_animation.play("jump")
 		velocity.y = JUMP_SPEED
 	
@@ -83,6 +86,7 @@ func _physics_process(delta: float) -> void:
 			dash_particles.process_material.gravity = Vector3(direction*DASH_PARTICLES_GRAVITY,0,0)
 			is_dashing = true
 		body_animation.play("dash")
+		head_animation.play("idle")
 		dash_particles.emitting = true
 		can_dash = false
 	

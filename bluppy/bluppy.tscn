@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://1cg6yxn0c61g"]
+[gd_scene load_steps=16 format=3 uid="uid://1cg6yxn0c61g"]
 
 [ext_resource type="Script" uid="uid://1e3blu5bcxvi" path="res://bluppy/bluppy.gd" id="1_gt7kt"]
 [ext_resource type="Texture2D" uid="uid://5gp3xp6wm6kc" path="res://bluppy/head.svg" id="2_c2lo8"]
@@ -23,6 +23,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_c2lo8"]
 resource_name = "idle"
@@ -41,10 +53,26 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 2, 1, 0]
 }
 
+[sub_resource type="Animation" id="Animation_jhpsk"]
+resource_name = "look_upward"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.296706]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_26wo1"]
 _data = {
 &"RESET": SubResource("Animation_26wo1"),
-&"idle": SubResource("Animation_c2lo8")
+&"idle": SubResource("Animation_c2lo8"),
+&"look_upward": SubResource("Animation_jhpsk")
 }
 
 [sub_resource type="Animation" id="Animation_eoaq8"]
@@ -60,6 +88,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_co2n1"]
+resource_name = "dash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
 }
 
 [sub_resource type="Animation" id="Animation_mtybu"]
@@ -78,21 +121,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 2, 1]
-}
-
-[sub_resource type="Animation" id="Animation_co2n1"]
-resource_name = "dash"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Body:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
 }
 
 [sub_resource type="Animation" id="Animation_gf3gj"]
